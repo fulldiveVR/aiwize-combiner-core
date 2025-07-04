@@ -1,17 +1,18 @@
 {
   "name": "aiwize-combiner-core",
   "description": "Core for AIWIZE browser",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build"
   },
   "dependencies": {
-    "isomorphic-ws": "^5.0.0",
-    "cross-fetch": "^4.0.0"
+    "cross-fetch": "^4.0.0",
+    "isomorphic-ws": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.1.6"
   },
   "files": [

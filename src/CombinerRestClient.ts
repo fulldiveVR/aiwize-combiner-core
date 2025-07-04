@@ -4,10 +4,16 @@
 import fetchOrig from "cross-fetch";
 
 function getFetch(): typeof fetch {
-  // Prefer global fetch if available (modern browsers / Node 18+)
-  if (typeof fetch !== "undefined") return fetch; // eslint-disable-line no-undef
+  // Check if we're in a browser environment
+  if (typeof window !== 'undefined' && window.fetch) {
+    return window.fetch.bind(window);
+  }
+  // Check if we're in Node.js with global fetch (Node 18+)
+  if (typeof global !== 'undefined' && 'fetch' in global) {
+    return (global as any).fetch;
+  }
   // Fallback to polyfill
-  return (fetchOrig as unknown) as typeof fetch;
+  return fetchOrig;
 }
 
 export interface CombinerRestClientOptions {
