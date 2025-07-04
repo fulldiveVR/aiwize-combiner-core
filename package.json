@@ -20,9 +20,9 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "main": "dist/cli.js",
+  "main": "dist/index.js",
   "bin": {
-    "aiwize-combiner-cli": "dist/cli.js"
+    "aiwize-combiner-core": "dist/index.js"
   },
   "type": "commonjs"
 }
