@@ -3,26 +3,30 @@
   "description": "Core for AIWIZE browser",
   "version": "0.1.1",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "dependencies": {
-    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/node": "^18.15.0",
-    "@types/yargs": "^17.0.24",
     "typescript": "^5.1.6"
   },
   "files": [
-    "dist",
+    "dist/**/*",
     "README.md"
   ],
   "engines": {
     "node": ">=18.0.0"
   },
   "main": "dist/index.js",
-  "bin": {
-    "aiwize-combiner-core": "dist/index.js"
-  },
-  "type": "commonjs"
+  "type": "commonjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  }
 }
