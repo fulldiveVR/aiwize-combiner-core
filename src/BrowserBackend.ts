@@ -15,6 +15,12 @@ declare global {
 }
 
 export class BrowserBackend {
+  /** When true, all content methods return mock data rather than calling the native bridge. */
+  private readonly debug: boolean;
+
+  constructor(options: { debug?: boolean } = {}) {
+    this.debug = options.debug ?? false;
+  }
   /**
    * Opens a link in the browser using the AIWIZE native bridge (if available)
    */
@@ -26,6 +32,12 @@ export class BrowserBackend {
    * Retrieves full HTML content of the current page from the browser extension
    */
   async getPageContent(): Promise<string> {
+    if (this.debug) {
+      return Promise.resolve(
+        "<html><body><h1>Mock Page Content</h1></body></html>"
+      );
+    }
+
     return new Promise((resolve) => {
       window.aiwize_applications ??= {};
 
@@ -46,6 +58,13 @@ export class BrowserBackend {
    * Retrieves the URL and title of the current page
    */
   async getPageInfo(): Promise<[string, string]> {
+    if (this.debug) {
+      return Promise.resolve([
+        "https://example.com/mock-page",
+        "Mock Page Title",
+      ]);
+    }
+
     return new Promise((resolve) => {
       window.aiwize_applications ??= {};
 
@@ -62,6 +81,12 @@ export class BrowserBackend {
    * Retrieves screenshots (base64 encoded strings) of the current page
    */
   async getPageScreenshots(): Promise<string[]> {
+    if (this.debug) {
+      const transparentPngBase64 =
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO2Z6XkAAAAASUVORK5CYII=";
+      return Promise.resolve([transparentPngBase64]);
+    }
+
     return new Promise((resolve) => {
       window.aiwize_applications ??= {};
 
@@ -75,4 +100,5 @@ export class BrowserBackend {
   }
 }
 
-export const useBackend = () => new BrowserBackend(); 
+export const useBackend = (options?: { debug?: boolean }) =>
+  new BrowserBackend(options); 

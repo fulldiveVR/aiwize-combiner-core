@@ -1,8 +1,8 @@
 # aiwize-combiner-core
 
-A minimal **TypeScript/JavaScript SDK** for interacting with the *AIWIZE Combiner* service from **browser** and **Node.js** environments.
+A minimal TypeScript/JavaScript SDK that lets **client-side applications** – web pages, browser extensions, and similar – tap into browser tools and communicate with the *AIWIZE Combiner* via REST, WebSocket and an optional browser-extension bridge.
 
-The API surface is intentionally small and **LLM-friendly** – method names, option keys and payload shapes are kept simple and explicit so that large-language models can generate correct code with high confidence. Human readability is a close second goal.
+Its API surface is deliberately tiny and explicit – method names, option keys and payload shapes are kept simple so you can integrate quickly and reliably.
 
 ---
 
@@ -33,7 +33,8 @@ import {
 } from "aiwize-combiner-core";
 
 // ➊ Access the browser extension bridge (browser-only)
-const backend = useBackend();            // or: new BrowserBackend();
+//    Pass { debug: true } to run without the browser extension (returns mock data)
+const backend = useBackend({ debug: true }); // or: new BrowserBackend({ debug: true });
 backend.openLink("https://aiwize.com"); // native call – no await needed
 
 // ➋ Interact with the Combiner REST API (browser + Node)
@@ -56,7 +57,20 @@ ws.send({ type: "hello", payload: "world" });
 
 ### 3.1 `class BrowserBackend`
 
-A very thin wrapper around the **AIWIZE browser extension**. All calls are forwarded via `window.chrome.send`. Works in Chrome-based browsers that have the extension installed.
+Thin wrapper around the **AIWIZE browser extension**. All calls are forwarded via `window.chrome.send`. Works in Chrome-based browsers that have the extension installed.
+
+> **Debug mode** – use `new BrowserBackend({ debug: true })` (or `useBackend({ debug: true })`) to **bypass the extension** and receive *mock data* from `getPageContent`, `getPageInfo` and `getPageScreenshots`. Helpful for unit tests / local development without the native bridge.
+
+#### 3.1.1 Constructor
+
+```ts
+new BrowserBackend(options?: {
+  /** When true, content methods return mock data */
+  debug?: boolean;
+});
+```
+
+#### 3.1.2 Methods
 
 | method | signature | description |
 | ------ | --------- | ----------- |
@@ -65,7 +79,7 @@ A very thin wrapper around the **AIWIZE browser extension**. All calls are forwa
 | `getPageInfo` | `getPageInfo(): Promise<[link: string, title: string]>` | Resolve to the current page **URL** and **`<title>`**. |
 | `getPageScreenshots` | `getPageScreenshots(): Promise<string[]>` | Resolve to an **array of base-64 PNG screenshots** capturing the visible area. |
 
-Helper: `useBackend(): BrowserBackend` simply returns `new BrowserBackend()` – handy for dependency injection or React hooks.
+Helper: `useBackend(options?)` simply returns `new BrowserBackend(options)` – handy for dependency injection or React hooks.
 
 ---
 

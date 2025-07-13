@@ -1,7 +1,7 @@
 {
   "name": "aiwize-combiner-core",
   "description": "Core for AIWIZE browser",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build"
