@@ -35,6 +35,12 @@ export class CombinerRestClient {
     this._fetch = getFetch();
   }
 
+  async getAiwizeSessionToken(): Promise<string> {
+    const url = new URL("/get-token", this.opts.baseUrl);
+    const { token } = await this.getJson(url);
+    return token;
+  }
+
   /* ———————————— Filesystem API ———————————— */
 
   async listDir(dirPath = "."): Promise<any> {

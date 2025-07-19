@@ -100,7 +100,13 @@ new CombinerRestClient(options: {
 });
 ```
 
-#### 3.2.2 Filesystem endpoints
+#### 3.2.2 Authentication
+
+| method | signature | server route |
+| ------ | --------- | ------------ |
+| `getAiwizeSessionToken` | `getAiwizeSessionToken(): Promise<string>` | `GET /get-token` |
+
+#### 3.2.3 Filesystem endpoints
 
 | method | signature | server route |
 | ------ | --------- | ------------ |
@@ -108,7 +114,7 @@ new CombinerRestClient(options: {
 | `readFile` | `readFile(filePath, encoding="utf-8"): Promise<any>` | `POST /api/fs/read` |
 | `writeFile` | `writeFile(filePath, content, encoding="utf-8"): Promise<any>` | `POST /api/fs/write` |
 
-#### 3.2.3 Database endpoints
+#### 3.2.4 Database endpoints
 
 | method | signature | server route |
 | ------ | --------- | ------------ |
