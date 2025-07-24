@@ -126,6 +126,43 @@ new CombinerRestClient(options: {
 
 All helpers throw a rich `Error` containing `status` *(number)* and `payload` *(JSON | string)* when the server responds with a non-2xx status code.
 
+#### 3.2.5 Labeling endpoints
+
+Additional endpoints for advanced labeling operations.
+
+| method            | signature                                   | server route                        |
+| ----------------- | ------------------------------------------- | ----------------------------------- |
+| `searchContext`   | `searchContext(payload): Promise<any>`      | `POST /api/labeling/search`         |
+| `processLabeling` | `processLabeling(payload): Promise<any>`    | `POST /api/labeling/process`        |
+
+**POST /api/labeling/search** (`searchContext`)
+
+Request example:
+```json
+{
+  "query": "openai",
+  "limit": 10,
+  "categories": [...],
+  "entities": [...],
+  "tags": [...]
+}
+```
+
+> **Test mode** – If the `testMode` option is enabled when constructing the client, or via `.setTestMode(true)`, `searchContext` will return filtered mock data instead of making a real API call. This is useful for local development and testing without a backend.
+
+
+**POST /api/labeling/process**
+
+Request example:
+```json
+{
+  "content": "...",
+  "metadata": { /* ... */ },
+  "userTags": [...],
+  "model": "..."
+}
+```
+
 ---
 
 ### 3.3 `class CombinerWebSocketClient`

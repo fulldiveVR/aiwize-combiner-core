@@ -1,10 +1,10 @@
-import { Context } from './types';
 
-export const MOCK_CONTEXT: Context[] = [
-    {
-        id: '1',
-        name: 'Getting Started with React',
-        content: `# Getting Started with React
+
+export const MOCK_CONTEXT = [
+  {
+    id: '1',
+    name: 'Getting Started with React',
+    content: `# Getting Started with React
 
 React is a JavaScript library for building user interfaces. It allows developers to create reusable UI components and manage application state efficiently.
 
@@ -32,14 +32,14 @@ function App() {
 1. Create a new React app: \`npx create-react-app my-app\`
 2. Navigate to directory: \`cd my-app\`
 3. Start development server: \`npm start\``,
-        category: 'tutorial',
-        tags: ['react', 'javascript', 'frontend', 'ui'],
-        updatedAt: '2024-01-15T10:30:00.000Z'
-    },
-    {
-        id: '2',
-        name: 'Node.js Best Practices',
-        content: `# Node.js Best Practices
+    category: 'tutorial',
+    tags: ['react', 'javascript', 'frontend', 'ui'],
+    updatedAt: '2024-01-15T10:30:00.000Z'
+  },
+  {
+    id: '2',
+    name: 'Node.js Best Practices',
+    content: `# Node.js Best Practices
 
 Node.js is a runtime environment that allows you to run JavaScript on the server side. Here are some best practices for building scalable Node.js applications.
 
@@ -77,14 +77,14 @@ try {
 - Implement structured logging
 - Monitor application performance
 - Set up health check endpoints`,
-        category: 'guide',
-        tags: ['nodejs', 'javascript', 'backend', 'server'],
-        updatedAt: '2024-01-20T14:15:00.000Z'
-    },
-    {
-        id: '3',
-        name: 'Database Design Principles',
-        content: `# Database Design Principles
+    category: 'guide',
+    tags: ['nodejs', 'javascript', 'backend', 'server'],
+    updatedAt: '2024-01-20T14:15:00.000Z'
+  },
+  {
+    id: '3',
+    name: 'Database Design Principles',
+    content: `# Database Design Principles
 
 Good database design is crucial for application performance. This document covers normalization, indexing, and query optimization techniques.
 
@@ -120,14 +120,14 @@ CREATE INDEX idx_user_status_date ON users(status, created_at);
 - Define foreign key constraints
 - Use check constraints for data validation
 - Implement proper cascade rules`,
-        category: 'reference',
-        tags: ['database', 'sql', 'design', 'performance'],
-        updatedAt: '2024-01-18T09:45:00.000Z'
-    },
-    {
-        id: '4',
-        name: 'TypeScript Migration Guide',
-        content: `# TypeScript Migration Guide
+    category: 'reference',
+    tags: ['database', 'sql', 'design', 'performance'],
+    updatedAt: '2024-01-18T09:45:00.000Z'
+  },
+  {
+    id: '4',
+    name: 'TypeScript Migration Guide',
+    content: `# TypeScript Migration Guide
 
 Migrating from JavaScript to TypeScript can improve code quality and developer experience. This guide covers the step-by-step process.
 
@@ -180,14 +180,14 @@ interface ApiResponse<T> {
 - Use union types instead of \`any\`
 - Leverage type guards for runtime checks
 - Document complex types with comments`,
-        category: 'tutorial',
-        tags: ['typescript', 'javascript', 'migration', 'types'],
-        updatedAt: '2024-01-22T16:20:00.000Z'
-    },
-    {
-        id: '5',
-        name: 'API Documentation Standards',
-        content: `# API Documentation Standards
+    category: 'tutorial',
+    tags: ['typescript', 'javascript', 'migration', 'types'],
+    updatedAt: '2024-01-22T16:20:00.000Z'
+  },
+  {
+    id: '5',
+    name: 'API Documentation Standards',
+    content: `# API Documentation Standards
 
 Well-documented APIs are essential for team collaboration. This document outlines standards for REST API documentation using OpenAPI specifications.
 
@@ -243,14 +243,14 @@ paths:
 - Provide request/response examples
 - Include edge cases
 - Show authentication examples`,
-        category: 'standard',
-        tags: ['api', 'documentation', 'rest', 'openapi'],
-        updatedAt: '2024-01-17T11:00:00.000Z'
-    },
-    {
-        id: '6',
-        name: 'Docker Container Best Practices',
-        content: `# Docker Container Best Practices
+    category: 'standard',
+    tags: ['api', 'documentation', 'rest', 'openapi'],
+    updatedAt: '2024-01-17T11:00:00.000Z'
+  },
+  {
+    id: '6',
+    name: 'Docker Container Best Practices',
+    content: `# Docker Container Best Practices
 
 Docker containers provide consistent deployment environments. Learn how to optimize Docker images and manage container lifecycles effectively.
 
@@ -305,14 +305,14 @@ services:
           memory: 512M
           cpus: '0.5'
 \`\`\``,
-        category: 'guide',
-        tags: ['docker', 'containers', 'deployment', 'devops'],
-        updatedAt: '2024-01-25T13:30:00.000Z'
-    },
-    {
-        id: '7',
-        name: 'CSS Grid Layout Fundamentals',
-        content: `# CSS Grid Layout Fundamentals
+    category: 'guide',
+    tags: ['docker', 'containers', 'deployment', 'devops'],
+    updatedAt: '2024-01-25T13:30:00.000Z'
+  },
+  {
+    id: '7',
+    name: 'CSS Grid Layout Fundamentals',
+    content: `# CSS Grid Layout Fundamentals
 
 CSS Grid is a powerful layout system for web pages. This document explains the fundamentals of grid containers, grid items, and responsive design.
 
@@ -383,14 +383,14 @@ CSS Grid is a powerful layout system for web pages. This document explains the f
   }
 }
 \`\`\``,
-        category: 'tutorial',
-        tags: ['css', 'grid', 'layout', 'frontend', 'responsive'],
-        updatedAt: '2024-01-12T08:15:00.000Z'
-    },
-    {
-        id: '8',
-        name: 'Security Checklist for Web Applications',
-        content: `# Security Checklist for Web Applications
+    category: 'tutorial',
+    tags: ['css', 'grid', 'layout', 'frontend', 'responsive'],
+    updatedAt: '2024-01-12T08:15:00.000Z'
+  },
+  {
+    id: '8',
+    name: 'Security Checklist for Web Applications',
+    content: `# Security Checklist for Web Applications
 
 Security should be a top priority in web development. This checklist covers common vulnerabilities and mitigation strategies.
 
@@ -447,14 +447,14 @@ app.use(session({
 - Use HTTPS for all communications
 - Implement proper access controls
 - Regular security audits and penetration testing`,
-        category: 'reference',
-        tags: ['security', 'web', 'vulnerabilities', 'checklist'],
-        updatedAt: '2024-01-21T12:45:00.000Z'
-    },
-    {
-        id: '9',
-        name: 'Git Workflow Guidelines',
-        content: `# Git Workflow Guidelines
+    category: 'reference',
+    tags: ['security', 'web', 'vulnerabilities', 'checklist'],
+    updatedAt: '2024-01-21T12:45:00.000Z'
+  },
+  {
+    id: '9',
+    name: 'Git Workflow Guidelines',
+    content: `# Git Workflow Guidelines
 
 Effective Git workflows improve team collaboration and code quality. This document covers branching strategies, commit conventions, and merge practices.
 
@@ -521,14 +521,14 @@ refactor(utils): simplify date formatting functions
 - Documentation is updated
 - No security vulnerabilities
 - Performance considerations addressed`,
-        category: 'standard',
-        tags: ['git', 'workflow', 'collaboration', 'version-control'],
-        updatedAt: '2024-01-19T15:10:00.000Z'
-    },
-    {
-        id: '10',
-        name: 'Performance Optimization Techniques',
-        content: `# Performance Optimization Techniques
+    category: 'standard',
+    tags: ['git', 'workflow', 'collaboration', 'version-control'],
+    updatedAt: '2024-01-19T15:10:00.000Z'
+  },
+  {
+    id: '10',
+    name: 'Performance Optimization Techniques',
+    content: `# Performance Optimization Techniques
 
 Application performance directly impacts user experience. This comprehensive guide covers frontend and backend optimization strategies.
 
@@ -610,8 +610,8 @@ return user;
 - Lighthouse
 - WebPageTest
 - Application Performance Monitoring (APM) tools`,
-        category: 'guide',
-        tags: ['performance', 'optimization', 'frontend', 'backend'],
-        updatedAt: '2024-01-23T10:25:00.000Z'
-    }
+    category: 'guide',
+    tags: ['performance', 'optimization', 'frontend', 'backend'],
+    updatedAt: '2024-01-23T10:25:00.000Z'
+  }
 ];

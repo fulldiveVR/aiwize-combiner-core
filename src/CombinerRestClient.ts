@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import fetchOrig from "cross-fetch";
+import { MOCK_CONTEXT } from "./mocks";
 
 function getFetch(): typeof fetch {
   // Check if we're in a browser environment
@@ -17,9 +18,10 @@ function getFetch(): typeof fetch {
 }
 
 export interface CombinerRestClientOptions {
-  baseUrl?: string; 
-  moduleId: string;
+  baseUrl?: string;
+  moduleId?: string;
   defaultHeaders?: Record<string, string>;
+  testMode?: boolean;
 }
 
 export class CombinerRestClient {
@@ -29,8 +31,9 @@ export class CombinerRestClient {
   constructor(options: CombinerRestClientOptions) {
     this.opts = {
       baseUrl: options.baseUrl ?? this.getDefaultBaseUrl(),
-      moduleId: options.moduleId,
+      moduleId: options.moduleId ?? "",
       defaultHeaders: options.defaultHeaders ?? {},
+      testMode: options.testMode ?? false,
     };
     this._fetch = getFetch();
   }
@@ -87,6 +90,68 @@ export class CombinerRestClient {
   async dbDelete(collection: string, id: string): Promise<any> {
     const url = new URL(`/api/db/${encodeURIComponent(this.opts.moduleId)}/${encodeURIComponent(collection)}/${encodeURIComponent(id)}`, this.opts.baseUrl);
     return this.delete(url);
+  }
+
+  /* ———————————— Labeling API ———————————— */
+
+  /**
+   * Search context using a query and optional filters.
+   * @param payload { query: string, limit?: number, categories?: any, entities?: any, tags?: any }
+   */
+  async searchContext(payload: any): Promise<any> {
+    if (this.opts.testMode) {
+      // --- Test mode logic, modeled after ContextManagerClient.searchContexts ---
+      await new Promise(resolve => setTimeout(resolve, 300));
+      let contexts = [...MOCK_CONTEXT];
+
+      // Apply filters if provided
+      if (payload?.query) {
+        const query = payload.query.toLowerCase();
+        contexts = contexts.filter(c =>
+          (c.name?.toLowerCase().includes(query) ?? false) ||
+          c.content.toLowerCase().includes(query) ||
+          c.tags?.some(tag => tag.toLowerCase().includes(query))
+        );
+      }
+
+      if (payload?.categories && payload.categories.length > 0) {
+        contexts = contexts.filter(c =>
+          payload.categories.some(category =>
+            c.category?.toLowerCase() === category.toLowerCase()
+          )
+        );
+      }
+
+      if (payload?.tags && payload.tags.length > 0) {
+        contexts = contexts.filter(c =>
+          c.tags?.some(tag =>
+            payload.tags?.some(filterTag =>
+              tag.toLowerCase() === filterTag.toLowerCase()
+            )
+          )
+        );
+      }
+
+      // Limit
+      if (payload?.limit && payload.limit > 0) {
+        contexts = contexts.slice(0, payload.limit);
+      }
+
+      return { success: true, data: contexts };
+    }
+
+    // --- Real API call ---
+    const url = new URL("/api/labeling/search", this.opts.baseUrl);
+    return this.postJson(url, payload);
+  }
+
+  /**
+   * Process labeling request.
+   * @param payload { content: string, metadata: any, userTags: any, model: string }
+   */
+  async processLabeling(payload: any): Promise<any> {
+    const url = new URL("/api/labeling/process", this.opts.baseUrl);
+    return this.postJson(url, payload);
   }
 
   /* ———————————— Internals ———————————— */
