@@ -7,9 +7,9 @@ export interface Context {
     updatedAt: string; // ISO date string
 }
 
-export interface SearchFilters {
+export interface SearchContextsBody {
     query?: string;
-    category?: string;
+    category?: string[];
     tags?: string[];
     limit?: number;
     sort?: 'updatedAt';

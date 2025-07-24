@@ -1,4 +1,4 @@
-import { Context, SearchFilters, ApiResponse } from "./types";
+import { Context, ApiResponse, SearchContextsBody } from "./types";
 import { MOCK_CONTEXT } from "./mocks";
 
 import fetchOrig from "cross-fetch";
@@ -43,14 +43,19 @@ export class ContextManagerClient {
         await new Promise(resolve => setTimeout(resolve, 300));
     }
 
-    async getContexts(filters?: SearchFilters): Promise<ApiResponse<Context[]>> {
+    /**
+     * Search for contexts in vector database
+     * @param body - The search body, see {@link SearchContextsBody}
+     * @returns The search results
+     */
+    async searchContexts(body?: SearchContextsBody): Promise<ApiResponse<Context[]>> {
         if (this.opts.testMode) {
             await this.mockDelay();
             let contexts = [...MOCK_CONTEXT];
 
             // Apply filters if provided
-            if (filters?.query) {
-                const query = filters.query.toLowerCase();
+            if (body?.query) {
+                const query = body.query.toLowerCase();
                 contexts = contexts.filter(c =>
                     (c.name?.toLowerCase().includes(query) ?? false) ||
                     c.content.toLowerCase().includes(query) ||
@@ -58,16 +63,18 @@ export class ContextManagerClient {
                 );
             }
 
-            if (filters?.category) {
+            if (body?.category) {
                 contexts = contexts.filter(c =>
-                    c.category?.toLowerCase() === filters.category?.toLowerCase()
+                    body.category.some(category =>
+                        c.category?.toLowerCase() === category.toLowerCase()
+                    )
                 );
             }
 
-            if (filters?.tags && filters.tags.length > 0) {
+            if (body?.tags && body.tags.length > 0) {
                 contexts = contexts.filter(c =>
                     c.tags?.some(tag =>
-                        filters.tags?.some(filterTag =>
+                        body.tags?.some(filterTag =>
                             tag.toLowerCase() === filterTag.toLowerCase()
                         )
                     )
@@ -75,48 +82,24 @@ export class ContextManagerClient {
             }
 
             // Sorting
-            if (filters?.sort === 'updatedAt') {
+            if (body?.sort === 'updatedAt') {
                 contexts.sort((a, b) => {
                     const dateA = new Date(a.updatedAt).getTime();
                     const dateB = new Date(b.updatedAt).getTime();
-                    return (filters.order === 'asc' ? dateA - dateB : dateB - dateA);
+                    return (body.order === 'asc' ? dateA - dateB : dateB - dateA);
                 });
             }
 
             // Limit
-            if (filters?.limit && filters.limit > 0) {
-                contexts = contexts.slice(0, filters.limit);
+            if (body?.limit && body.limit > 0) {
+                contexts = contexts.slice(0, body.limit);
             }
 
             return { success: true, data: contexts };
         }
 
-        const params = new URLSearchParams();
-        if (filters?.query) params.append('q', filters.query);
-        if (filters?.category) params.append('category', filters.category);
-        if (filters?.tags) params.append('tags', filters.tags.join(','));
-        if (filters?.limit) params.append('limit', String(filters.limit));
-        if (filters?.sort) params.append('sort', filters.sort);
-        if (filters?.order) params.append('order', filters.order);
-
-        const url = new URL(`/api/context?${params.toString()}`, this.opts.baseUrl);
-        return this.getJson(url);
-    }
-
-    async getContext(id: string): Promise<ApiResponse<Context>> {
-        if (this.opts.testMode) {
-            await this.mockDelay();
-            const context = MOCK_CONTEXT.find(c => c.id === id);
-
-            if (context) {
-                return { success: true, data: context };
-            } else {
-                return { success: false, error: 'Context not found' };
-            }
-        }
-
-        const url = new URL(`/api/context/${encodeURIComponent(id)}`, this.opts.baseUrl);
-        return this.getJson(url);
+        const url = new URL(`/api/labeling/search`, this.opts.baseUrl);
+        return await this.postJson(url, body);
     }
 
     // Method to toggle test mode
