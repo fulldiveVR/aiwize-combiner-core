@@ -137,7 +137,14 @@ export class CombinerRestClient {
         contexts = contexts.slice(0, payload.limit);
       }
 
-      return { success: true, data: contexts };
+      // Map to expected response shape: { content, summary_content, url }
+      const mapped = contexts.map(c => ({
+        content: c.content,
+        summary_content: c.content.length > 100 ? c.content.slice(0, 100) + "..." : c.content,
+        url: `https://mock.local/context/${c.id}`
+      }));
+
+      return { success: true, data: mapped };
     }
 
     // --- Real API call ---
