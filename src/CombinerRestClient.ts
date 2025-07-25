@@ -5,15 +5,6 @@ import fetchOrig from "cross-fetch";
 import { MOCK_CONTEXT } from "./mocks";
 
 function getFetch(): typeof fetch {
-  // Check if we're in a browser environment
-  if (typeof window !== 'undefined' && window.fetch) {
-    return window.fetch.bind(window);
-  }
-  // Check if we're in Node.js with global fetch (Node 18+)
-  if (typeof global !== 'undefined' && 'fetch' in global) {
-    return (global as any).fetch;
-  }
-  // Fallback to polyfill
   return fetchOrig;
 }
 
