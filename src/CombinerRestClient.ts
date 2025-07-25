@@ -5,7 +5,15 @@ import fetchOrig from "cross-fetch";
 import { MOCK_CONTEXT } from "./mocks";
 
 function getFetch(): typeof fetch {
-  return fetchOrig;
+  // Prefer the native implementation (browser, Service Worker, modern Node)
+  if (typeof globalThis !== "undefined" && typeof (globalThis as any).fetch === "function") {
+    // Bind to the global object to avoid "Illegal invocation" errors that can
+    // occur in Web Workers / Chrome extensions when `fetch` is extracted.
+    return (globalThis as any).fetch.bind(globalThis);
+  }
+
+  // Fallback to the polyfill provided by `cross-fetch` (handles older Node).  
+  return fetchOrig as unknown as typeof fetch;
 }
 
 export interface CombinerRestClientOptions {
